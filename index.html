@@ -8,102 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --overlay-top: 0.25;   /* lighter up top so the flame pops */
-      --overlay-bot: 0.65;   /* a bit darker near the bottom for contrast */
-      --title-size: clamp(2rem, 6vw, 4rem);
-      --tagline-size: clamp(1.1rem, 3.2vw, 2rem);
-    }
-
-    html, body {
-      height: 100%;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Lora', serif;
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-      background: #000;
-    }
-
-    /* Background video fills the viewport */
-    #bgVideo {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: cover;
-      z-index: -2;
-      background: #000; /* in case video takes a moment to start */
-    }
-
-    /* Soft gradient overlay so text is readable, but flame still shows */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,var(--overlay-top)),
-        rgba(0,0,0,var(--overlay-bot))
-      );
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .container {
-      min-height: 100dvh; /* mobile-safe viewport */
-      display: grid;
-      place-items: center;
-      grid-template-rows: auto 1fr auto;
-      gap: 2rem;
-      padding: 4dvh 5vw;
-    }
-
-    .site-title {
-      margin: 0;
-      font-size: var(--title-size);
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      letter-spacing: 1px;
-      text-transform: none; /* true mixed case */
-      text-shadow: 0 2px 18px rgba(0,0,0,.6);
-    }
-
-    .headline {
-      margin: 0;
-      font-size: var(--tagline-size);
-      font-weight: 400;
-      text-shadow: 0 2px 14px rgba(0,0,0,.6);
-    }
-
-    .actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 2px solid #fff;
-      padding: .7rem 1.6rem;
-      text-decoration: none;
-      color: #fff;
-      font-size: 1.1rem;
-      transition: all .25s ease;
-      border-radius: .4rem;
-      background: rgba(0,0,0,.15);
-      backdrop-filter: blur(2px);
-    }
-    .btn:hover { background: #fff; color: #000; }
-  </style>
+  <link rel="stylesheet" href="layout.css">
 </head>
 <body>
   <!-- Poster provides a nice still frame if the video is still loading -->
@@ -125,6 +30,12 @@
       <a href="about.html" class="btn">About Us</a>
       <a href="contact.html" class="btn">Contact Us</a>
     </nav>
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2025 PizzaDojo2Go. All rights reserved.</p>
+      </div>
+    </footer>
   </div>
 </body>
 </html>

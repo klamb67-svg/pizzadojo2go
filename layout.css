@@ -1,0 +1,210 @@
+/* Universal Layout Template for PizzaDojo2Go */
+:root {
+  --overlay-top: 0.25;   /* lighter up top so the flame pops */
+  --overlay-bot: 0.65;   /* a bit darker near the bottom for contrast */
+  --title-size: clamp(2rem, 6vw, 4rem);
+  --tagline-size: clamp(1.1rem, 3.2vw, 2rem);
+  --content-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Lora', serif;
+  color: #fff;
+  text-align: center;
+  overflow-x: hidden;
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background video/image styles */
+#bgVideo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: -2;
+  background: #000; /* in case video takes a moment to start */
+}
+
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  background: #000;
+}
+
+/* Soft gradient overlay so text is readable */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,var(--overlay-top)),
+    rgba(0,0,0,var(--overlay-bot))
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Main layout container */
+.container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 2rem;
+  padding: 4dvh 5vw;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header styles */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-title {
+  margin: 0;
+  font-size: var(--title-size);
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 1px;
+  text-transform: none;
+  text-shadow: 0 2px 18px rgba(0,0,0,.6);
+}
+
+/* Main content area */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  min-height: 50vh;
+}
+
+.headline {
+  margin: 0;
+  font-size: var(--tagline-size);
+  font-weight: 400;
+  text-shadow: 0 2px 14px rgba(0,0,0,.6);
+}
+
+.content {
+  font-size: var(--content-size);
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Navigation and actions */
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 2px solid #fff;
+  padding: .7rem 1.6rem;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all .25s ease;
+  border-radius: .4rem;
+  background: rgba(0,0,0,.15);
+  backdrop-filter: blur(2px);
+  font-family: 'Lora', serif;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+}
+
+/* Footer styles */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-top: auto;
+}
+
+.footer-content {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 2dvh 4vw;
+    gap: 1.5rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  main {
+    min-height: 40vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1dvh 3vw;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: .6rem 1.2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.mb-3 { margin-bottom: 3rem; }
+
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.mt-3 { margin-top: 3rem; }
+

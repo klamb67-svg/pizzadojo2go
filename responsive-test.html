@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Test - PizzaDojo2Go</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="layout.css">
+    <style>
+        /* Test viewport indicators */
+        .viewport-test {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+        
+        .test-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background image for test page -->
+    <img src="assets/images/background.jpg" alt="Pizza oven background" class="bg-image">
+    <div class="overlay" aria-hidden="true"></div>
+    
+    <!-- Viewport size indicator -->
+    <div class="viewport-test" id="viewportInfo">
+        Width: <span id="width"></span>px<br>
+        Height: <span id="height"></span>px
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 class="site-title">PizzaDojo2Go.com</h1>
+        </header>
+
+        <main>
+            <h2 class="headline">Responsive Layout Test</h2>
+            <div class="content test-content">
+                <div class="test-section">
+                    <h3>Mobile Test (320px - 480px)</h3>
+                    <p>This section should stack vertically on mobile devices. Buttons should be full-width and text should be readable.</p>
+                </div>
+                
+                <div class="test-section">
+                    <h3>Tablet Test (768px - 1024px)</h3>
+                    <p>Content should be well-spaced with appropriate margins. Buttons should be in a row but may wrap if needed.</p>
+                </div>
+                
+                <div class="test-section">
+                    <h3>Desktop Test (1024px+)</h3>
+                    <p>Full layout with proper spacing. All elements should be clearly visible and well-aligned.</p>
+                </div>
+                
+                <div class="test-section">
+                    <h3>Long Content Test</h3>
+                    <p>This is a longer paragraph to test how the layout handles extended content. The text should wrap properly and maintain readability across all screen sizes. The footer should remain at the bottom of the viewport, and the content should scroll smoothly without any cutoff issues.</p>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <a href="index.html" class="btn">Return Home</a>
+                <a href="about.html" class="btn">About Us</a>
+                <a href="contact.html" class="btn">Contact Us</a>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 PizzaDojo2Go. All rights reserved.</p>
+                <p>Footer should stay at bottom on all screen sizes</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Update viewport info
+        function updateViewportInfo() {
+            document.getElementById('width').textContent = window.innerWidth;
+            document.getElementById('height').textContent = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', updateViewportInfo);
+        updateViewportInfo();
+    </script>
+</body>
+</html>
+
+
+
