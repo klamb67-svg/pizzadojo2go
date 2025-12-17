@@ -1,41 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - PizzaDojo2Go</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="layout.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Pizza Dojo 2Go</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --overlay-top: 0.25;
+      --overlay-bot: 0.65;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Lora', serif;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* Background video */
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      background-color: #000;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, var(--overlay-top)),
+        rgba(0, 0, 0, var(--overlay-bot))
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center; /* center vertically first */
+      justify-content: center;
+      z-index: 2;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      transform: translateY(25vh); /* push content down */
+    }
+
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin: 0;
+      text-shadow: 0 2px 14px rgba(0,0,0,.6);
+    }
+
+    p {
+      font-size: 1.4rem;
+      margin: 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,.6);
+    }
+
+    .actions {
+      margin-top: 1.6rem;
+    }
+
+    .btn {
+      border: 2px solid #fff;
+      padding: .7rem 1.6rem;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      transition: all .25s ease;
+      border-radius: .4rem;
+      background: rgba(0,0,0,.15);
+      backdrop-filter: blur(2px);
+    }
+
+    .btn:hover {
+      background: #fff;
+      color: #000;
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Background image for about page -->
-    <img src="assets/images/background.jpg" alt="Pizza oven background" class="bg-image">
-    <div class="overlay" aria-hidden="true"></div>
+  <video id="bgVideo" autoplay muted playsinline loop poster="assets/images/oven2.jpg">
+    <source src="assets/images/oven3.mp4" type="video/mp4" />
+  </video>
 
-    <div class="container">
-        <header>
-            <h1 class="site-title">PizzaDojo2Go.com</h1>
-        </header>
+  <div class="overlay" aria-hidden="true"></div>
 
-        <main>
-            <h2 class="headline">About Us</h2>
-            <div class="content">
-                <p>Details are being fired up. Check back soon!</p>
-                <p>We're crafting something special for pizza lovers everywhere.</p>
-            </div>
-            <div class="actions">
-                <a href="index.html" class="btn">Return Home</a>
-                <a href="contact.html" class="btn">Contact Us</a>
-            </div>
-        </main>
-
-        <footer>
-            <div class="footer-content">
-                <p>&copy; 2025 PizzaDojo2Go. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
+  <div class="container">
+    <main>
+      <h1 class="headline">About Us</h1>
+      <p>Details are being fired up. Check back soon!</p>
+      <div class="actions">
+        <a href="index.html" class="btn">Return Home</a>
+      </div>
+    </main>
+  </div>
 </body>
 </html>
