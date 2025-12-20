@@ -28,16 +28,13 @@
       background: #000;
     }
 
-    /* ✅ Stable, reliable background video setup */
-    #bgVideo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-      background-color: #000;
+    /* Background image */
+    body {
+      background-image: url('assets/images/oven2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
     }
 
     .overlay {
@@ -118,11 +115,6 @@
 </head>
 
 <body>
-  <!-- ✅ make sure this path is correct and file names match exactly -->
-  <video id="bgVideo" autoplay muted playsinline loop poster="assets/images/oven2.jpg">
-    <source src="assets/images/oven3.mp4" type="video/mp4" />
-  </video>
-
   <div class="overlay" aria-hidden="true"></div>
 
   <div class="container">
