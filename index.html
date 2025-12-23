@@ -7,13 +7,13 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lora:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --overlay-top: 0.25;
       --overlay-bot: 0.65;
-      --title-size: clamp(2rem, 6vw, 4rem);
+      --title-size: clamp(2.5rem, 8vw, 5rem);
       --tagline-size: clamp(1.1rem, 3.2vw, 2rem);
     }
 
@@ -58,21 +58,22 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 4rem;
+      gap: 8rem;
       padding: 3vh 5vw 6vh;
       z-index: 2;
     }
 
     header {
-      margin-top: 1rem;
+      margin-top: -4rem;
     }
 
     .site-title {
       margin: 0;
       font-size: var(--title-size);
       font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      text-shadow: 0 2px 18px rgba(0,0,0,.6);
+      font-family: 'Bangers', cursive;
+      text-shadow: 0 3px 20px rgba(0,0,0,.8);
+      letter-spacing: 0.05em;
     }
 
     .bottom-section {
@@ -80,6 +81,7 @@
       flex-direction: column;
       align-items: center;
       gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     .headline {
@@ -101,6 +103,9 @@
       text-decoration: none;
       color: #fff;
       font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Bangers', cursive;
+      letter-spacing: 0.05em;
       transition: all .25s ease;
       border-radius: .4rem;
       background: rgba(0,0,0,.15);
@@ -114,17 +119,29 @@
 
     /* Mobile: increase font sizes for readability */
     @media (max-width: 768px) {
+      .container {
+        gap: 10rem;
+      }
+
+      header {
+        margin-top: -6rem;
+      }
+
       .site-title {
-        font-size: clamp(2.2rem, 8vw, 3rem);
+        font-size: clamp(2.8rem, 10vw, 4rem);
       }
       
       .headline {
-        font-size: clamp(1.1rem, 4vw, 1.5rem);
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
       }
       
       .btn {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         padding: 0.9rem 2rem;
+      }
+
+      .bottom-section {
+        margin-top: 3rem;
       }
     }
   </style>
@@ -135,7 +152,7 @@
 
   <div class="container">
     <header>
-      <h1 class="site-title">PizzaDojo2Go.com</h1>
+      <h1 class="site-title">Pizza Dojo</h1>
     </header>
 
     <div class="bottom-section">
