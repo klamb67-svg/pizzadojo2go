@@ -32,8 +32,16 @@
       background-image: url('assets/images/oven2.jpg');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
       background-repeat: no-repeat;
+    }
+
+    /* Mobile: adjust background to show more of image */
+    @media (max-width: 768px) {
+      body {
+        background-size: 120% auto;
+        background-position: center top;
+        background-attachment: scroll;
+      }
     }
 
     .overlay {
@@ -59,6 +67,15 @@
       justify-content: center;
       z-index: 2;
       padding: 4rem 2rem;
+      padding-bottom: 6rem;
+    }
+
+    /* Mobile: adjust padding and ensure bottom content is accessible */
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1.5rem;
+        padding-bottom: 5rem;
+      }
     }
 
     main {
@@ -120,6 +137,27 @@
     .btn:hover {
       background: #fff;
       color: #000;
+    }
+
+    /* Mobile: increase font sizes for readability */
+    @media (max-width: 768px) {
+      .headline {
+        font-size: 2.2rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+      }
+      
+      .btn {
+        font-size: 1.2rem;
+        padding: 0.9rem 2rem;
+      }
     }
   </style>
 </head>
