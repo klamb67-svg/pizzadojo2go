@@ -71,20 +71,24 @@
 
     .container {
       position: relative;
-      min-height: 100vh;
+      min-height: 50vh;
+      max-height: 50vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       z-index: 2;
-      padding: 4rem 2rem;
-      padding-bottom: 6rem;
+      padding: 1rem 2rem;
+      padding-top: calc(1rem + 80px);
+      overflow-y: auto;
     }
 
     /* Mobile: adjust padding */
     @media (max-width: 768px) {
       .container {
-        padding: 2rem 1.5rem;
-        padding-bottom: 5rem;
+        min-height: 45vh;
+        max-height: 45vh;
+        padding: 0.75rem 1.5rem;
+        padding-top: calc(0.75rem + 70px);
       }
     }
 
