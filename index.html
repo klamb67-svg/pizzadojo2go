@@ -32,16 +32,16 @@
     /* Background image - homepage uses background.png */
     body {
       background-image: url('assets/images/background.png');
-      background-size: cover;
+      background-size: 100% auto;
       background-position: center center;
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
     
-    /* Desktop: optimized positioning for full dojo visibility */
+    /* Desktop: width-based sizing for optimal display */
     @media (min-width: 769px) {
       body {
-        background-size: cover;
+        background-size: 100% auto;
         background-position: center center;
       }
     }
@@ -49,7 +49,7 @@
     /* Mobile: adjust to show full dojo */
     @media (max-width: 768px) {
       body {
-        background-size: cover;
+        background-size: 100% auto;
         background-position: center center;
         background-attachment: scroll;
       }

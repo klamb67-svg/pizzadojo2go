@@ -31,25 +31,25 @@
     /* Background image - InsideBackground.png for all non-home pages */
     body {
       background-image: url('assets/images/InsideBackground.png');
-      background-size: cover;
-      background-position: center 45%;
+      background-size: 100% auto;
+      background-position: center center;
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
 
-    /* Desktop: optimized positioning to keep floor logo visible */
+    /* Desktop: width-based sizing for optimal display */
     @media (min-width: 769px) {
       body {
-        background-size: cover;
-        background-position: center 45%;
+        background-size: 100% auto;
+        background-position: center center;
       }
     }
 
     /* Mobile: adjust to show key elements */
     @media (max-width: 768px) {
       body {
-        background-size: cover;
-        background-position: center 45%;
+        background-size: 100% auto;
+        background-position: center center;
         background-attachment: scroll;
       }
     }
