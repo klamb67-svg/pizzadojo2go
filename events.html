@@ -31,26 +31,25 @@
     /* Background image - InsideBackground.png for all non-home pages */
     body {
       background-image: url('assets/images/InsideBackground.png');
-      background-size: contain;
-      background-position: center center;
+      background-size: cover;
+      background-position: center 45%;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      background-color: #000;
     }
 
-    /* Desktop: ensure full dojo is visible */
+    /* Desktop: optimized positioning to keep floor logo visible */
     @media (min-width: 769px) {
       body {
-        background-size: contain;
-        background-position: center center;
+        background-size: cover;
+        background-position: center 45%;
       }
     }
 
-    /* Mobile: adjust to show full dojo */
+    /* Mobile: adjust to show key elements */
     @media (max-width: 768px) {
       body {
-        background-size: contain;
-        background-position: center center;
+        background-size: cover;
+        background-position: center 45%;
         background-attachment: scroll;
       }
     }
