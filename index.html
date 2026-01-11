@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="layout.css">
 
   <style>
     :root {
@@ -28,12 +29,13 @@
       background: #000;
     }
 
-    /* Background image */
+    /* Background image - homepage uses background.png */
     body {
-      background-image: url('assets/images/oven2.jpg');
+      background-image: url('assets/images/background.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      background-attachment: fixed;
     }
 
     .overlay {
@@ -73,6 +75,7 @@
       font-family: 'Bangers', cursive;
       text-shadow: 0 3px 20px rgba(0,0,0,.8);
       letter-spacing: 0.05em;
+      color: var(--dojo-cream);
     }
 
     .bottom-section {
@@ -89,6 +92,7 @@
       font-family: 'Bangers', cursive;
       letter-spacing: 0.02em;
       text-shadow: 0 2px 14px rgba(0,0,0,.6);
+      color: var(--dojo-cream);
     }
 
     .actions {
@@ -99,23 +103,25 @@
     }
 
     .btn {
-      border: 2px solid #fff;
+      border: 2px solid var(--dojo-gold);
       padding: .7rem 1.6rem;
       text-decoration: none;
-      color: #fff;
+      color: var(--dojo-cream);
       font-size: 1.1rem;
       font-weight: 700;
       font-family: 'Bangers', cursive;
       letter-spacing: 0.05em;
       transition: all .25s ease;
       border-radius: .4rem;
-      background: rgba(0,0,0,.15);
+      background: rgba(93, 64, 55, 0.4);
       backdrop-filter: blur(2px);
     }
 
     .btn:hover {
-      background: #fff;
-      color: #000;
+      background: var(--dojo-gold);
+      color: var(--dojo-wood);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     }
 
     /* Mobile: adjust spacing */
@@ -155,6 +161,19 @@
 </head>
 
 <body>
+  <!-- Navigation Menu -->
+  <nav class="nav-menu" aria-label="Main navigation">
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+    </ul>
+  </nav>
+
   <div class="overlay" aria-hidden="true"></div>
 
   <div class="container">
@@ -164,10 +183,6 @@
 
     <div class="bottom-section">
       <h2 class="headline">Coming in 2026 to a community near you!</h2>
-      <nav class="actions" aria-label="Primary">
-        <a href="about.html" class="btn">About Us</a>
-        <a href="contact.html" class="btn">Contact Us</a>
-      </nav>
     </div>
   </div>
 </body>

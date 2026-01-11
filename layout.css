@@ -5,6 +5,19 @@
   --title-size: clamp(2rem, 6vw, 4rem);
   --tagline-size: clamp(1.1rem, 3.2vw, 2rem);
   --content-size: clamp(1rem, 2.5vw, 1.5rem);
+  
+  /* Warm Japanese Dojo Color Palette */
+  --dojo-gold: #d4af37;
+  --dojo-gold-light: #f4d03f;
+  --dojo-gold-dark: #b8941f;
+  --dojo-brown: #8b6f47;
+  --dojo-brown-light: #a68b5b;
+  --dojo-brown-dark: #6b5433;
+  --dojo-cream: #f5e6d3;
+  --dojo-cream-light: #faf5ed;
+  --dojo-wood: #5d4037;
+  --dojo-text: #fff;
+  --dojo-text-shadow: rgba(0, 0, 0, 0.8);
 }
 
 html, body {
@@ -70,8 +83,62 @@ body {
   grid-template-rows: auto 1fr auto;
   gap: 2rem;
   padding: 4dvh 5vw;
+  padding-top: calc(4dvh + 80px); /* Account for fixed navigation */
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(93, 64, 55, 0.85); /* dojo-wood with transparency */
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--dojo-gold);
+  z-index: 1000;
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.nav-menu li {
+  margin: 0;
+}
+
+.nav-menu a {
+  color: var(--dojo-cream);
+  text-decoration: none;
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.nav-menu a:hover {
+  color: var(--dojo-gold-light);
+  background: rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-menu a.active {
+  color: var(--dojo-gold);
+  border-bottom: 2px solid var(--dojo-gold);
 }
 
 /* Header styles */
@@ -163,8 +230,22 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .nav-menu {
+    padding: 0.75rem 0;
+  }
+  
+  .nav-menu ul {
+    gap: 0.25rem 0.75rem;
+  }
+  
+  .nav-menu a {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.75rem;
+  }
+  
   .container {
     padding: 2dvh 4vw;
+    padding-top: calc(2dvh + 70px); /* Account for fixed navigation on mobile */
     gap: 1.5rem;
   }
   
@@ -184,8 +265,14 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .nav-menu a {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+  }
+  
   .container {
     padding: 1dvh 3vw;
+    padding-top: calc(1dvh + 65px); /* Account for fixed navigation on small mobile */
     gap: 1rem;
   }
   
