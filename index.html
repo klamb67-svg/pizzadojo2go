@@ -32,10 +32,28 @@
     /* Background image - homepage uses background.png */
     body {
       background-image: url('assets/images/background.png');
-      background-size: cover;
-      background-position: center;
+      background-size: contain;
+      background-position: center center;
       background-repeat: no-repeat;
       background-attachment: fixed;
+      background-color: #000;
+    }
+    
+    /* Desktop: ensure full dojo is visible */
+    @media (min-width: 769px) {
+      body {
+        background-size: contain;
+        background-position: center center;
+      }
+    }
+    
+    /* Mobile: adjust to show full dojo */
+    @media (max-width: 768px) {
+      body {
+        background-size: contain;
+        background-position: center center;
+        background-attachment: scroll;
+      }
     }
 
     .overlay {
