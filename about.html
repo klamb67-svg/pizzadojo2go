@@ -81,6 +81,12 @@
       padding: 1rem 2rem;
       padding-top: calc(1rem + 80px);
       overflow-y: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
     }
 
     /* Mobile: adjust padding and ensure bottom content is accessible */
