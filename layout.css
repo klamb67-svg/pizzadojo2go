@@ -83,7 +83,7 @@ body {
   grid-template-rows: auto 1fr auto;
   gap: 2rem;
   padding: 4dvh 5vw;
-  padding-top: calc(4dvh + 80px); /* Account for fixed navigation */
+  padding-top: calc(4dvh + 60px); /* Account for fixed navigation */
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -98,7 +98,7 @@ body {
   backdrop-filter: blur(8px);
   border-bottom: 2px solid var(--dojo-gold);
   z-index: 1000;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -237,7 +237,7 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav-menu {
-    padding: 0.5rem 0;
+    padding: 0.9rem 0;
   }
   
   .nav-menu ul {
@@ -261,7 +261,7 @@ footer {
   
   .container {
     padding: 2dvh 4vw;
-    padding-top: calc(2dvh + 70px); /* Account for fixed navigation on mobile */
+    padding-top: calc(2dvh + 85px); /* Account for fixed navigation on mobile */
     gap: 1.5rem;
   }
   
@@ -282,7 +282,7 @@ footer {
 
 @media (max-width: 480px) {
   .nav-menu {
-    padding: 0.4rem 0;
+    padding: 0.85rem 0;
   }
   
   .nav-menu ul {
@@ -296,7 +296,7 @@ footer {
   
   .container {
     padding: 1dvh 3vw;
-    padding-top: calc(1dvh + 65px); /* Account for fixed navigation on small mobile */
+    padding-top: calc(1dvh + 80px); /* Account for fixed navigation on small mobile */
     gap: 1rem;
   }
   
