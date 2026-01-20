@@ -1,0 +1,197 @@
+/* Gallery Page Specific Styles */
+
+/* Page-level root variables (overlay only for this page) */
+:root {
+  --overlay-top: 0.25;
+  --overlay-bot: 0.65;
+}
+
+/* Page structure - html/body for gallery page */
+html {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Bangers', cursive;
+  color: var(--dojo-cream);
+  text-align: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #000; /* Fallback color - only shows if image fails to load */
+  background-image: url('../assets/images/InsideBackground.png');
+  background-size: 100% auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Desktop: width-based sizing for optimal display */
+@media (min-width: 769px) {
+  body {
+    background-size: 100% auto;
+    background-position: center center;
+  }
+}
+
+/* Mobile: adjust to show key elements */
+@media (max-width: 768px) {
+  body {
+    background-image: url('../assets/images/MobileInsideBackground.png');
+    background-size: cover; /* Changed from 100% auto to cover for better coverage */
+    background-position: center center;
+    background-attachment: fixed; /* Changed from scroll to fixed */
+    background-repeat: no-repeat; /* Explicitly set no-repeat */
+  }
+}
+
+/* Overlay for gallery page */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--overlay-top)),
+    rgba(0, 0, 0, var(--overlay-bot))
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Container for gallery page */
+.container {
+  position: relative;
+  min-height: calc(100vh - 80px);
+  z-index: 2;
+  padding: 1rem;
+  padding-top: calc(1rem + 80px); /* Nav height */
+  padding-bottom: 2rem;
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+/* Mobile: adjust padding */
+@media (max-width: 768px) {
+  .container {
+    min-height: calc(100vh - 70px);
+    padding: 0.5rem;
+    padding-top: calc(1rem + 70px); /* Increased padding-top so title isn't cut off */
+    padding-bottom: 1rem;
+  }
+}
+
+/* Main content area */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Page headline */
+.headline {
+  font-family: 'Bangers', cursive;
+  font-size: 2.8rem;
+  margin: 0;
+  text-shadow: 0 2px 14px rgba(0,0,0,.6);
+  color: var(--dojo-gold);
+  flex-shrink: 0;
+}
+
+/* Mobile: adjust headline */
+@media (max-width: 768px) {
+  .headline {
+    font-size: 2rem;
+  }
+}
+
+/* Gallery Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0 0.5rem;
+  }
+}
+
+/* Gallery Items */
+.gallery-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 2px solid var(--dojo-gold);
+  background: rgba(93, 64, 55, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate portrait images 90 degrees to display as landscape */
+.gallery-item img.portrait-rotate {
+  transform: rotate(90deg) scale(1.5);
+  transform-origin: center center;
+  /* Scale up to fill frame properly after rotation */
+  /* Width/height at 100% but scaled 1.5x to fill 4:3 container */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: none;
+  max-height: none;
+}
+
+/* Loading and Error States */
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--dojo-cream);
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.error {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--dojo-gold);
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+

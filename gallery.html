@@ -8,328 +8,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="css/gallery.css">
 
   <!-- EXIF.js for reading image metadata -->
   <script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js"></script>
-
-  <style>
-    :root {
-      --overlay-top: 0.25;
-      --overlay-bot: 0.65;
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      font-family: 'Bangers', cursive;
-      color: var(--dojo-cream);
-      text-align: center;
-      overflow-x: hidden;
-      background: #000;
-    }
-
-    /* Background image - InsideBackground.png for all non-home pages */
-    body {
-      background-image: url('assets/images/InsideBackground.png');
-      background-size: 100% auto;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-
-    /* Desktop: width-based sizing for optimal display */
-    @media (min-width: 769px) {
-      body {
-        background-size: 100% auto;
-        background-position: center center;
-      }
-    }
-
-    /* Mobile: adjust to show key elements */
-    @media (max-width: 768px) {
-      body {
-        background-image: url('assets/images/MobileInsideBackground.png');
-        background-size: 100% auto;
-        background-position: center center;
-        background-attachment: scroll;
-      }
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, var(--overlay-top)),
-        rgba(0, 0, 0, var(--overlay-bot))
-      );
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .container {
-      position: relative;
-      min-height: calc(100vh - 80px);
-      z-index: 2;
-      padding: 1rem;
-      padding-top: calc(1rem + 80px);
-      padding-bottom: 2rem;
-      box-sizing: border-box;
-    }
-
-    /* Mobile: adjust padding */
-    @media (max-width: 768px) {
-      .container {
-        min-height: calc(100vh - 70px);
-        padding: 0.5rem;
-        padding-top: calc(0.5rem + 70px);
-        padding-bottom: 1rem;
-      }
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      box-sizing: border-box;
-    }
-
-    .headline {
-      font-family: 'Bangers', cursive;
-      font-size: 2.8rem;
-      margin: 0;
-      text-shadow: 0 2px 14px rgba(0,0,0,.6);
-      color: var(--dojo-gold);
-      flex-shrink: 0;
-    }
-
-    /* Mobile: adjust headline */
-    @media (max-width: 768px) {
-      .headline {
-        font-size: 2rem;
-      }
-    }
-
-    /* Gallery Grid */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      width: 100%;
-      max-width: 1200px;
-      padding: 0 1rem;
-      box-sizing: border-box;
-    }
-
-    @media (max-width: 768px) {
-      .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-        padding: 0 0.5rem;
-      }
-    }
-
-    .gallery-item {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      border-radius: 0.5rem;
-      border: 2px solid var(--dojo-gold);
-      background: rgba(93, 64, 55, 0.3);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .gallery-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
-      border-color: var(--dojo-gold-light);
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .loading {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: var(--dojo-cream);
-      font-size: 1.2rem;
-      padding: 2rem;
-    }
-
-    .error {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: var(--dojo-gold);
-      font-size: 1.2rem;
-      padding: 2rem;
-    }
-
-    /* Lightbox Modal */
-    .lightbox {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-
-    .lightbox.active {
-      display: flex;
-    }
-
-    .lightbox-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lightbox-image {
-      max-width: 100%;
-      max-height: 90vh;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      border-radius: 0.5rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 50px;
-      height: 50px;
-      background: rgba(93, 64, 55, 0.9);
-      border: 2px solid var(--dojo-gold);
-      border-radius: 50%;
-      color: var(--dojo-gold);
-      font-size: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 1001;
-      line-height: 1;
-      padding: 0;
-    }
-
-    .lightbox-close:hover {
-      background: var(--dojo-gold);
-      color: var(--dojo-wood);
-      transform: scale(1.1);
-    }
-
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 60px;
-      height: 60px;
-      background: rgba(93, 64, 55, 0.9);
-      border: 2px solid var(--dojo-gold);
-      border-radius: 50%;
-      color: var(--dojo-gold);
-      font-size: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 1001;
-      line-height: 1;
-      padding: 0;
-    }
-
-    .lightbox-nav:hover {
-      background: var(--dojo-gold);
-      color: var(--dojo-wood);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .lightbox-nav.prev {
-      left: 1rem;
-    }
-
-    .lightbox-nav.next {
-      right: 1rem;
-    }
-
-    .lightbox-nav:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    .lightbox-nav:disabled:hover {
-      transform: translateY(-50%);
-      background: rgba(93, 64, 55, 0.9);
-      color: var(--dojo-gold);
-    }
-
-    @media (max-width: 768px) {
-      .lightbox {
-        padding: 1rem;
-      }
-
-      .lightbox-close {
-        top: 0.5rem;
-        right: 0.5rem;
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-      }
-
-      .lightbox-nav {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-      }
-
-      .lightbox-nav.prev {
-        left: 0.5rem;
-      }
-
-      .lightbox-nav.next {
-        right: 0.5rem;
-      }
-    }
-  </style>
 </head>
 
 <body>
+  <script>
+    // Prevent browser scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Immediately reset scroll position before anything renders
+    (function() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    })();
+  </script>
+  
   <!-- Navigation Menu -->
   <nav class="nav-menu" aria-label="Main navigation">
     <ul>
@@ -354,16 +55,6 @@
     </main>
   </div>
 
-  <!-- Lightbox Modal -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
-    <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous">‹</button>
-    <button class="lightbox-nav next" id="lightboxNext" aria-label="Next">›</button>
-    <div class="lightbox-content">
-      <img class="lightbox-image" id="lightboxImage" alt="Gallery image">
-    </div>
-  </div>
-
   <script>
     // Gallery configuration
     const GALLERY_PATH = 'assets/images/gallery/';
@@ -375,7 +66,19 @@
 
     // Gallery state
     let galleryImages = [];
-    let currentImageIndex = 0;
+
+    // Helper function to convert EXIF date format to ISO-compatible format
+    // EXIF format: "2024:12:07 21:02:34" → ISO: "2024-12-07 21:02:34"
+    function parseExifDate(exifDateString) {
+      if (!exifDateString) return null;
+      
+      // EXIF date format: "YYYY:MM:DD HH:mm:ss"
+      // Convert to ISO-like format: "YYYY-MM-DD HH:mm:ss"
+      // Replace first two colons with hyphens
+      const isoFormat = exifDateString.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3');
+      
+      return new Date(isoFormat);
+    }
 
     // Initialize gallery
     async function initGallery() {
@@ -397,9 +100,11 @@
         
         // Sort by EXIF DateTimeOriginal (newest first)
         galleryImages.sort((a, b) => {
-          const dateA = a.exifDate ? new Date(a.exifDate) : new Date(a.fileDate);
-          const dateB = b.exifDate ? new Date(b.exifDate) : new Date(b.fileDate);
-          return dateB - dateA; // Newest first
+          const dateA = a.exifDate ? parseExifDate(a.exifDate) : new Date(a.fileDate);
+          const dateB = b.exifDate ? parseExifDate(b.exifDate) : new Date(b.fileDate);
+          // Return negative if B is newer (larger), positive if A is newer
+          // This puts newest (larger dates) first
+          return dateB - dateA;
         });
 
         // Render gallery
@@ -496,81 +201,46 @@
         img.alt = `Gallery image ${index + 1}`;
         img.loading = 'lazy';
         
+        // Detect portrait orientation and rotate if needed
+        img.onload = function() {
+          if (this.naturalHeight > this.naturalWidth) {
+            // Portrait image - rotate 90 degrees
+            this.classList.add('portrait-rotate');
+          }
+        };
+        
         item.appendChild(img);
-        item.addEventListener('click', () => openLightbox(index));
         
         grid.appendChild(item);
       });
     }
 
-    // Lightbox functions
-    function openLightbox(index) {
-      currentImageIndex = index;
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightboxImage');
-      
-      lightboxImage.src = galleryImages[index].src;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      
-      updateNavButtons();
-    }
-
-    function closeLightbox() {
-      const lightbox = document.getElementById('lightbox');
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    function showNext() {
-      if (currentImageIndex < galleryImages.length - 1) {
-        currentImageIndex++;
-        document.getElementById('lightboxImage').src = galleryImages[currentImageIndex].src;
-        updateNavButtons();
+    // Aggressive scroll reset - multiple events
+    function resetScroll() {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      if (window.pageYOffset !== 0) {
+        window.scrollTo(0, 0);
       }
     }
 
-    function showPrev() {
-      if (currentImageIndex > 0) {
-        currentImageIndex--;
-        document.getElementById('lightboxImage').src = galleryImages[currentImageIndex].src;
-        updateNavButtons();
-      }
+    // Reset immediately
+    resetScroll();
+
+    // Reset on DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', resetScroll);
+    } else {
+      resetScroll();
     }
 
-    function updateNavButtons() {
-      const prevBtn = document.getElementById('lightboxPrev');
-      const nextBtn = document.getElementById('lightboxNext');
-      
-      prevBtn.disabled = currentImageIndex === 0;
-      nextBtn.disabled = currentImageIndex === galleryImages.length - 1;
-    }
+    // Reset on window load
+    window.addEventListener('load', resetScroll);
 
-    // Event listeners
-    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-    document.getElementById('lightboxPrev').addEventListener('click', showPrev);
-    document.getElementById('lightboxNext').addEventListener('click', showNext);
-
-    // Close on background click
-    document.getElementById('lightbox').addEventListener('click', (e) => {
-      if (e.target.id === 'lightbox') {
-        closeLightbox();
-      }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      const lightbox = document.getElementById('lightbox');
-      if (!lightbox.classList.contains('active')) return;
-
-      if (e.key === 'Escape') {
-        closeLightbox();
-      } else if (e.key === 'ArrowLeft') {
-        showPrev();
-      } else if (e.key === 'ArrowRight') {
-        showNext();
-      }
-    });
+    // Reset after a brief delay to catch any late scrolling
+    setTimeout(resetScroll, 100);
+    setTimeout(resetScroll, 500);
 
     // Initialize on page load
     initGallery();
