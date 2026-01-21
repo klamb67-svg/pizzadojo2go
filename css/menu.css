@@ -212,6 +212,7 @@ main {
 @media (max-width: 768px) {
   .headline {
     font-size: 2.2rem;
+    margin-top: 1.5rem; /* Add spacing between nav and title on mobile */
   }
   
   .menu-info {
