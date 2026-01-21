@@ -7,185 +7,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="layout.css">
-
-  <style>
-    :root {
-      --overlay-top: 0.25;
-      --overlay-bot: 0.65;
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      font-family: 'Bangers', cursive;
-      color: var(--dojo-cream);
-      text-align: center;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: #000;
-    }
-
-    /* Background image - InsideBackground.png for all non-home pages */
-    body {
-      background-image: url('assets/images/InsideBackground.png');
-      background-size: 100% auto;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-
-    /* Desktop: width-based sizing for optimal display */
-    @media (min-width: 769px) {
-      body {
-        background-size: 100% auto;
-        background-position: center center;
-      }
-    }
-
-    /* Mobile: adjust to show key elements */
-    @media (max-width: 768px) {
-      body {
-        background-image: url('assets/images/MobileInsideBackground.png');
-        background-size: 100% auto;
-        background-position: center center;
-        background-attachment: scroll;
-      }
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, var(--overlay-top)),
-        rgba(0, 0, 0, var(--overlay-bot))
-      );
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .container {
-      position: relative;
-      min-height: 50vh;
-      max-height: 50vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      z-index: 2;
-      padding: 1rem 2rem;
-      padding-top: calc(1rem + 80px);
-      overflow-y: auto;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
-    }
-
-    .container::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-
-    /* Mobile: adjust padding and ensure bottom content is accessible */
-    @media (max-width: 768px) {
-      .container {
-        min-height: 45vh;
-        max-height: 45vh;
-        padding: 0.75rem 1.5rem;
-        padding-top: calc(0.75rem + 70px);
-      }
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2.5rem;
-      max-width: 900px;
-      width: 100%;
-    }
-
-    .headline {
-      font-family: 'Bangers', cursive;
-      font-size: 2.8rem;
-      margin: 0;
-      text-shadow: 0 2px 14px rgba(0,0,0,.6);
-      color: var(--dojo-gold);
-    }
-
-    .section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .section-title {
-      font-family: 'Bangers', cursive;
-      font-size: 2.2rem;
-      margin: 0;
-      text-shadow: 0 2px 14px rgba(0,0,0,.6);
-      color: var(--dojo-gold-light);
-    }
-
-    p {
-      font-size: 1.2rem;
-      margin: 0;
-      text-shadow: 0 2px 10px rgba(0,0,0,.6);
-      line-height: 1.8;
-      text-align: left;
-      max-width: 800px;
-      color: var(--dojo-cream);
-    }
-
-    .actions {
-      margin-top: 1.6rem;
-    }
-
-    .btn {
-      border: 2px solid var(--dojo-gold);
-      padding: .7rem 1.6rem;
-      text-decoration: none;
-      color: var(--dojo-cream);
-      font-size: 1.1rem;
-      transition: all .25s ease;
-      border-radius: .4rem;
-      background: rgba(93, 64, 55, 0.4);
-      backdrop-filter: blur(2px);
-    }
-
-    .btn:hover {
-      background: var(--dojo-gold);
-      color: var(--dojo-wood);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
-    }
-
-    /* Mobile: increase font sizes for readability */
-    @media (max-width: 768px) {
-      .headline {
-        font-size: 2.2rem;
-      }
-      
-      .section-title {
-        font-size: 1.8rem;
-      }
-      
-      p {
-        font-size: 1.1rem;
-        line-height: 1.7;
-      }
-      
-      .btn {
-        font-size: 1.2rem;
-        padding: 0.9rem 2rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/about.css">
 </head>
 
 <body>
@@ -209,15 +34,14 @@
       <h1 class="headline">About Us</h1>
       
       <div class="section">
-        <h2 class="section-title">Mission Statement</h2>
-        <p>At Pizza Dojo, we are committed to quality above all else. Our philosophy can be summarized by our practice we call 30Pie. Due to physical limitations and an unwavering dedication to excellence, we craft no more than 30 artisan pizzas per day - intentionally. Every pizza is handcrafted using premium ingredients like locally stone milled flour, Carr Valley whole milk mozzarella, and San Marzano tomatoes. We keep our menu tight, perfecting the fundamentals before expanding, because mastering the basics matters more than offering everything. 30Pie isn't just our limit - it's our standard.</p>
-      </div>
-
-      <div class="section">
-        <h2 class="section-title">About Us</h2>
         <p>My love affair with pizza began in childhood, when my dad would bring home boxes of Tombstone pizzas - As a child I dreamed of moving to Medford, WI to work in their plant when I grew up. As a milkman's son, I'd tag along on deliveries to restaurants, including Balistreri's on 68th and Wells in Wauwatosa, WI, where the aroma alone of real pizza first captivated me. Years later my pizza obsession continued while working at Pepino's in Brookfield. By high school, I was making pizzas at Pizza Hut, back in the day when they made their dough in store and used real fresh Italian sausage. Life happens, I got caught up making a living, pizza became delegated to pizza night.</p>
         <p>In my 40s, I rekindled that passion, attempting Neapolitan-style pizza - which promptly ended up on the oven floor, I'll never forget that experience. I made the dough, just one worked tireless to get everything right but didn't even know Neapolitan-style pizza bakes at 900f. Well it never made it onto my pizza stone it stuck to the peel and fell onto the heating element on the bottom of the oven. I was devastated, cleaned it up and just crawled into bed at 7pm. After a few more attempts I stepped back. But in my late 50s, the fire reignited. With vastly more knowledge available and years of life experience behind me, I developed a style my wife and I love - one I hope to share with you.</p>
         <p>The inspiration for Pizza Dojo came from seeing a video about a 70-year-old Japanese man who opened a small home pizza shop that sells out two weeks in advance. What left the biggest impression on me was how you should only commit to baking as many pizzas as your physical abilities and maintain volume at a level that you never compromise quality resonated deeply. The name "Pizza Dojo" reflects this philosophy - a dojo is a place of learning, practice and discipline, which is exactly how I operate my pizza trailer.</p>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Mission Statement</h2>
+        <p>At Pizza Dojo, we are committed to quality above all else. Our philosophy can be summarized by our practice we call 30Pie. Due to physical limitations and an unwavering dedication to excellence, we craft no more than 30 artisan pizzas per day - intentionally. Every pizza is handcrafted using premium ingredients like locally stone milled flour, Carr Valley whole milk mozzarella, and San Marzano tomatoes. We keep our menu tight, perfecting the fundamentals before expanding, because mastering the basics matters more than offering everything. 30Pie isn't just our limit - it's our standard.</p>
       </div>
     </main>
   </div>

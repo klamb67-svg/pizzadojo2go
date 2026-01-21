@@ -122,6 +122,34 @@ main {
   }
 }
 
+/* Gallery description */
+.gallery-description {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.1rem;
+  color: var(--dojo-cream);
+  text-align: center;
+  margin: 0 0 1.5rem 0;
+  padding: 0 1rem;
+  text-transform: none;
+  font-weight: 400;
+  line-height: 1.6;
+  max-width: 920px; /* Wider to fit on one line, or create balanced two-line split */
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance; /* Balance text across lines when wrapping (modern browsers) */
+  orphans: 2;
+  widows: 2;
+}
+
+/* Mobile: adjust description */
+@media (max-width: 768px) {
+  .gallery-description {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
 /* Gallery Grid */
 .gallery-grid {
   display: grid;
@@ -154,6 +182,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 200px; /* Prevent layout shift during loading */
 }
 
 .gallery-item img {
@@ -161,7 +190,13 @@ main {
   height: 100%;
   object-fit: contain;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.gallery-item img.gallery-image {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* Rotate portrait images 90 degrees to display as landscape */
@@ -184,6 +219,9 @@ main {
   color: var(--dojo-cream);
   font-size: 1.2rem;
   padding: 2rem;
+  font-family: 'Varela Round', sans-serif;
+  text-transform: none;
+  font-weight: 400;
 }
 
 .error {
@@ -192,6 +230,40 @@ main {
   color: var(--dojo-gold);
   font-size: 1.2rem;
   padding: 2rem;
+}
+
+/* Image loading placeholder and spinner */
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(93, 64, 55, 0.2);
+  z-index: 1;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(218, 165, 32, 0.3);
+  border-top-color: var(--dojo-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.load-error {
+  color: var(--dojo-gold);
+  font-family: 'Varela Round', sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.7;
 }
 
 

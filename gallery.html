@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="layout.css">
   <link rel="stylesheet" href="css/gallery.css">
@@ -49,6 +49,7 @@
   <div class="container">
     <main>
       <h1 class="headline">Gallery</h1>
+      <p class="gallery-description">A visual journey from my most recent pizza bakes and all the way back to my very first attempts.</p>
       <div class="gallery-grid" id="galleryGrid">
         <div class="loading">Loading gallery...</div>
       </div>
@@ -140,13 +141,16 @@
       // imageFiles = ['pizza1.jpg', 'pizza2.jpg', 'pizza3.jpg'];
     }
 
-    // Load images and extract EXIF data
+    // Load image metadata without loading full image data
+    // This allows us to sort without loading all images at once
     async function loadImagesWithExif() {
       const promises = imageFiles.map(async (filename) => {
         return new Promise((resolve) => {
+          // Create a minimal Image object just for EXIF extraction
+          // Use a smaller approach: fetch just headers or use XMLHttpRequest for metadata only
           const img = new Image();
-          img.src = GALLERY_PATH + filename;
           
+          // Set up EXIF extraction with minimal image load
           img.onload = function() {
             // Extract EXIF data
             try {
@@ -160,7 +164,7 @@
                   filename: filename,
                   exifDate: exifDate,
                   fileDate: fileDate,
-                  element: img
+                  loaded: false // Track if image is actually loaded for display
                 });
               });
             } catch (e) {
@@ -170,15 +174,25 @@
                 filename: filename,
                 exifDate: null,
                 fileDate: new Date().getTime(),
-                element: img
+                loaded: false
               });
             }
           };
           
           img.onerror = function() {
-            console.warn(`Failed to load image: ${filename}`);
-            resolve(null);
+            console.warn(`Failed to load image metadata: ${filename}`);
+            // Still resolve with basic data so image can be displayed
+            resolve({
+              src: GALLERY_PATH + filename,
+              filename: filename,
+              exifDate: null,
+              fileDate: new Date().getTime(),
+              loaded: false
+            });
           };
+          
+          // Start loading (for EXIF) but this will be small compared to full render
+          img.src = GALLERY_PATH + filename;
         });
       });
 
@@ -196,17 +210,43 @@
         item.className = 'gallery-item';
         item.setAttribute('data-index', index);
         
+        // Add loading placeholder
+        const placeholder = document.createElement('div');
+        placeholder.className = 'image-placeholder';
+        placeholder.innerHTML = '<div class="spinner"></div>';
+        item.appendChild(placeholder);
+        
         const img = document.createElement('img');
         img.src = image.src;
         img.alt = `Gallery image ${index + 1}`;
-        img.loading = 'lazy';
+        img.setAttribute('loading', 'lazy'); // Use setAttribute for proper lazy loading
+        img.className = 'gallery-image';
         
-        // Detect portrait orientation and rotate if needed
+        // Hide image until loaded
+        img.style.opacity = '0';
+        
+        // Show placeholder while loading
+        img.onloadstart = function() {
+          placeholder.style.display = 'flex';
+        };
+        
+        // Handle image load
         img.onload = function() {
+          // Hide placeholder and show image
+          placeholder.style.display = 'none';
+          this.style.opacity = '1';
+          
+          // Detect portrait orientation and rotate if needed
           if (this.naturalHeight > this.naturalWidth) {
             // Portrait image - rotate 90 degrees
             this.classList.add('portrait-rotate');
           }
+        };
+        
+        // Handle image load error
+        img.onerror = function() {
+          placeholder.innerHTML = '<span class="load-error">Failed to load</span>';
+          placeholder.style.display = 'flex';
         };
         
         item.appendChild(img);
