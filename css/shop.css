@@ -97,7 +97,7 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
   margin: 0;
   margin-left: auto;
@@ -115,15 +115,140 @@ main {
   flex-shrink: 0;
 }
 
-/* Coming soon text */
-.coming-soon {
-  font-family: 'Varela Round', sans-serif;
+/* Products grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+/* Product card */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.5);
+  border-color: rgba(212, 175, 55, 0.7);
+}
+
+/* Product image */
+.product-image {
+  width: 100%;
+  height: 300px;
+  background: rgba(93, 64, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Product info */
+.product-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+/* Product name */
+.product-name {
+  font-family: 'Bangers', cursive;
   font-size: 1.5rem;
+  color: var(--dojo-gold);
+  margin: 0;
   text-shadow: 0 2px 10px rgba(0,0,0,.6);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Product price */
+.product-price {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 1.3rem;
   color: var(--dojo-cream);
-  line-height: 1.8;
-  text-transform: none; /* Ensure regular sentence case, not all caps */
-  font-weight: 400;
+  margin: 0;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+}
+
+/* Buy button */
+.buy-btn {
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  font-family: 'Bangers', cursive;
+  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--dojo-gold);
+  background: rgba(93, 64, 55, 0.4);
+  color: var(--dojo-cream);
+  text-decoration: none;
+  border-radius: 0.4rem;
+  transition: all 0.25s ease;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  cursor: pointer;
+  display: block;
+}
+
+.buy-btn:hover {
+  background: var(--dojo-gold);
+  color: var(--dojo-wood);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+/* Mobile: single column layout */
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .product-image {
+    height: 250px;
+  }
+
+  .product-info {
+    padding: 1.25rem;
+  }
+
+  .product-name {
+    font-size: 1.3rem;
+  }
+
+  .product-price {
+    font-size: 1.2rem;
+  }
+
+  .buy-btn {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.3rem;
+  }
 }
 
 /* Button styles */
