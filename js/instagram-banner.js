@@ -174,7 +174,7 @@
 
     // Create text
     const text = document.createElement('span');
-    text.textContent = 'Best experience, open in Safari/Chrome';
+    text.textContent = '';
     text.style.cssText = `
       font-family: 'Varela Round', sans-serif;
       font-size: 0.95rem;
