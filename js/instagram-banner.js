@@ -156,33 +156,12 @@
       z-index: 10000;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       padding: 0.8rem 1rem;
+      gap: 1rem;
+      position: relative;
       box-sizing: border-box;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    `;
-
-    // Create text container
-    const textContainer = document.createElement('div');
-    textContainer.style.cssText = `
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex: 1;
-      min-width: 0;
-    `;
-
-    // Create text
-    const text = document.createElement('span');
-    text.textContent = 'Best experience, open in Safari/Chrome';
-    text.style.cssText = `
-      font-family: 'Varela Round', sans-serif;
-      font-size: 0.95rem;
-      color: #f5e6d3;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     `;
 
     // Create action button
@@ -216,6 +195,8 @@
     const dismissButton = document.createElement('button');
     dismissButton.innerHTML = '&times;';
     dismissButton.style.cssText = `
+      position: absolute;
+      right: 1rem;
       padding: 0.3rem 0.6rem;
       font-family: 'Varela Round', sans-serif;
       font-size: 1.5rem;
@@ -226,7 +207,6 @@
       transition: all 0.2s ease;
       line-height: 1;
       flex-shrink: 0;
-      margin-left: 0.5rem;
     `;
     dismissButton.onmouseover = function() {
       this.style.color = '#d4af37';
@@ -241,9 +221,7 @@
     };
 
     // Assemble banner
-    textContainer.appendChild(text);
-    textContainer.appendChild(actionButton);
-    banner.appendChild(textContainer);
+    banner.appendChild(actionButton);
     banner.appendChild(dismissButton);
 
     // Add to page
