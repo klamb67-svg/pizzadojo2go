@@ -213,6 +213,17 @@ main {
   max-height: none;
 }
 
+/* Counter-rotate for images that need opposite rotation */
+.gallery-item img.portrait-counter-rotate {
+  transform: rotate(-90deg) scale(1.5);
+  transform-origin: center center;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: none;
+  max-height: none;
+}
+
 /* Loading and Error States */
 .loading {
   grid-column: 1 / -1;

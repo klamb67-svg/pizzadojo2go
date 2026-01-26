@@ -239,6 +239,12 @@
           placeholder.style.display = 'none';
           this.style.opacity = '1';
           
+          // Special case: 20251018_200059.jpg needs counter-rotation
+          if (image.filename === '20251018_200059.jpg') {
+            this.classList.add('portrait-counter-rotate');
+            return;
+          }
+          
           // Detect portrait orientation and rotate if needed
           if (this.naturalHeight > this.naturalWidth) {
             // Portrait image - rotate 90 degrees
