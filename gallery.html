@@ -239,9 +239,9 @@
           placeholder.style.display = 'none';
           this.style.opacity = '1';
           
-          // Special case: 20251018_200059.jpg needs counter-rotation
+          // Special case: 20251018_200059.jpg should not be rotated
           if (image.filename === '20251018_200059.jpg') {
-            this.classList.add('portrait-counter-rotate');
+            // Skip all rotation for this image - display as-is
             return;
           }
           
