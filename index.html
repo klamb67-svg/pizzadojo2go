@@ -74,6 +74,13 @@
       pointer-events: none;
     }
 
+    /* Hide overlay on mobile to show bright background */
+    @media (max-width: 768px) {
+      .overlay {
+        display: none;
+      }
+    }
+
     .container {
       position: relative;
       height: 100vh;
