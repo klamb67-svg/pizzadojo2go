@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pizza Dojo 2Go - Coming Soon</title>
+  <title>Pizza Dojo 2Go</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lora:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="layout.css">
   
   <!-- Instagram In-App Browser Banner -->
@@ -22,13 +22,14 @@
     }
 
     html, body {
-      height: 100%;
+      min-height: 100%;
       margin: 0;
       padding: 0;
       font-family: 'Bangers', cursive;
       color: #fff;
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       background: #000;
     }
 
@@ -49,13 +50,16 @@
       }
     }
     
-    /* Mobile: adjust to show full dojo */
+    /* Mobile: background fills viewport, no black bar */
     @media (max-width: 768px) {
       body {
         background-image: url('assets/images/Mobilebackground.png');
-        background-size: 100% auto;
+        background-size: cover;
         background-position: center center;
         background-attachment: scroll;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
     }
 
@@ -152,14 +156,16 @@
       box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     }
 
-    /* Mobile: adjust spacing */
+    /* Mobile: natural flow - container fills space, footer at bottom */
     @media (max-width: 768px) {
       html, body {
         overflow-y: auto;
+        min-height: 100vh;
       }
 
       .container {
-        min-height: 100vh;
+        flex: 1;
+        min-height: 0;
         height: auto;
         gap: 18rem;
       }
@@ -185,6 +191,83 @@
         margin-top: 6rem;
       }
     }
+
+    /* Homepage Footer */
+    .home-footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: -300px auto 0;
+    }
+
+    .footer-text {
+      color: #f4e4c1;
+      font-family: 'Varela Round', sans-serif;
+      font-size: 1.2rem;
+      font-weight: normal;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .footer-headline {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .social-icon {
+      width: 48px;
+      height: 48px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      display: block;
+    }
+
+    .social-icon path {
+      transition: fill 0.3s ease;
+    }
+
+    .social-links a:hover .social-icon {
+      transform: scale(1.1);
+    }
+
+    .social-links a:hover .social-icon path {
+      fill: #d4a574;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .social-icon {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    /* Mobile Footer - normal flow below content, no overlap */
+    @media (max-width: 768px) {
+      .home-footer {
+        padding: 15px;
+        margin: 0 auto;
+      }
+
+      .footer-text {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin-bottom: 15px;
+      }
+
+      .footer-headline {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 
@@ -206,6 +289,21 @@
 
   <div class="container">
   </div>
+
+  <footer class="home-footer">
+    <p class="footer-text">
+      <span class="footer-headline">Coming to Central Wisconsin Summer of 2026</span><br><br>
+      Pizza Dojo local flame baked artisan pizza food trailer!<br>
+      Follow Us for more information
+    </p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/pizzadojo2go/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="#f4e4c1"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
 
 </body>
 </html>
