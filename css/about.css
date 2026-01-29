@@ -147,6 +147,30 @@ p {
   font-weight: 400;
 }
 
+/* Inline Instagram link at end of last paragraph */
+.about-instagram-link {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.25rem;
+  color: var(--dojo-cream);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.about-instagram-link:hover {
+  color: var(--dojo-gold-light);
+  transform: scale(1.1);
+}
+
+.about-instagram-icon {
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: middle;
+}
+
+.tagline-30pie {
+  color: var(--dojo-gold-light);
+}
+
 /* Actions section */
 .actions {
   margin-top: 1.6rem;
