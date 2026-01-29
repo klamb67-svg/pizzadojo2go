@@ -50,16 +50,14 @@
       }
     }
     
-    /* Mobile: background fills viewport, no black bar */
+    /* Mobile: background fills viewport, fixed height, no scroll */
     @media (max-width: 768px) {
       body {
         background-image: url('assets/images/Mobilebackground.png');
         background-size: cover;
         background-position: center center;
         background-attachment: scroll;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+        height: 100vh;
       }
     }
 
@@ -156,17 +154,15 @@
       box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     }
 
-    /* Mobile: natural flow - container fills space, footer at bottom */
+    /* Mobile: no scrolling, fixed layout */
     @media (max-width: 768px) {
       html, body {
-        overflow-y: auto;
-        min-height: 100vh;
+        overflow-y: hidden;
+        height: 100vh;
       }
 
       .container {
-        flex: 1;
-        min-height: 0;
-        height: auto;
+        height: 100vh;
         gap: 2rem;
       }
 
@@ -251,11 +247,15 @@
       }
     }
 
-    /* Mobile Footer - pull up high, tight line spacing */
+    /* Mobile Footer - fixed at bottom, no scroll */
     @media (max-width: 768px) {
       .home-footer {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
         padding: 8px 12px;
-        margin: -350px auto 20px;
+        margin: 0;
       }
 
       .footer-text {
