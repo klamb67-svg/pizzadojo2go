@@ -39,8 +39,8 @@ try {
     return imageExtensions.includes(ext);
   });
 
-  // Sort alphabetically (optional - EXIF sorting will happen in the browser)
-  imageFiles.sort();
+  // Sort by filename descending (newest first - filenames are YYYYMMDD_HHMMSS)
+  imageFiles.sort((a, b) => b.localeCompare(a));
 
   // Create JSON structure
   const galleryData = {
