@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>Major Replay Uploader: connected</title>
+<style>body{font-family:Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;line-height:1.5;color:#222}code{word-break:break-all;background:#eee;padding:2px 4px}</style>
+</head><body><h1>Major Replay Uploader</h1>
+<p id="msg">TikTok sign-in finished.</p>
+<p>Copy the code below and send it to Rook. It expires in a few minutes.</p>
+<p><code id="code"></code></p>
+<script>
+const p=new URLSearchParams(location.search);
+if(p.get('error')){document.getElementById('msg').textContent='TikTok sign-in failed: '+p.get('error');}
+document.getElementById('code').textContent=p.get('code')||'(no code in the address)';
+</script>
+</body></html>
