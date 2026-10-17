@@ -12,36 +12,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery - Pizza Dojo 2Go</title>
-
+  <meta name="description" content="Pizza Dojo's bake journal: every pizza from the newest bake back to the very first attempts.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="layout.css">
   <link rel="stylesheet" href="css/gallery.css">
-
-  <!-- EXIF.js for reading image metadata -->
-  <script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js"></script>
-  
+  <link rel="preload" as="fetch" href="assets/images/gallery-web/gallery-data.json" crossorigin>
   <!-- Instagram In-App Browser Banner -->
   <script src="js/instagram-banner.js"></script>
 </head>
-
 <body>
-  <script>
-    // Prevent browser scroll restoration
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
-
-    // Immediately reset scroll position before anything renders
-    (function() {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    })();
-  </script>
-  
   <!-- Navigation Menu -->
   <nav class="nav-menu" aria-label="Main navigation">
     <ul>
@@ -60,247 +42,25 @@
   <div class="container">
     <main>
       <h1 class="headline">Gallery</h1>
-      <p class="gallery-description">A visual journey from my most recent pizza bakes and all the way back to my very first attempts.</p>
-      <div class="gallery-grid" id="galleryGrid">
-        <div class="loading">Loading gallery...</div>
+      <p class="gallery-description">A visual journey from my most recent pizza bakes all the way back to my very first attempts.</p>
+      <p class="g-count" id="galleryCount" aria-live="polite"></p>
+      <div class="g-sections" id="gallery">
+        <p class="g-status">Firing up the oven…</p>
       </div>
     </main>
   </div>
 
-  <script>
-    // Gallery configuration
-    const GALLERY_PATH = 'assets/images/gallery/';
-    
-    // This array will be populated dynamically
-    // For now, we'll try to fetch a list or use a predefined list
-    // You can manually add image filenames here, or we'll try to auto-detect
-    let imageFiles = [];
+  <!-- Full-screen viewer -->
+  <dialog class="g-viewer" id="viewer" aria-label="Photo viewer">
+    <div class="g-stage">
+      <img class="g-photo" id="viewerImg" alt="">
+    </div>
+    <p class="g-caption" id="viewerCaption" aria-live="polite"></p>
+    <button class="g-btn g-close" type="button" id="viewerClose" aria-label="Close">&times;</button>
+    <button class="g-btn g-prev" type="button" id="viewerPrev" aria-label="Newer photo">&#8249;</button>
+    <button class="g-btn g-next" type="button" id="viewerNext" aria-label="Older photo">&#8250;</button>
+  </dialog>
 
-    // Gallery state
-    let galleryImages = [];
-
-    // Helper function to convert EXIF date format to ISO-compatible format
-    // EXIF format: "2024:12:07 21:02:34" → ISO: "2024-12-07 21:02:34"
-    function parseExifDate(exifDateString) {
-      if (!exifDateString) return null;
-      
-      // EXIF date format: "YYYY:MM:DD HH:mm:ss"
-      // Convert to ISO-like format: "YYYY-MM-DD HH:mm:ss"
-      // Replace first two colons with hyphens
-      const isoFormat = exifDateString.replace(/^(\d{4}):(\d{2}):(\d{2})/, '$1-$2-$3');
-      
-      return new Date(isoFormat);
-    }
-
-    // Initialize gallery
-    async function initGallery() {
-      const grid = document.getElementById('galleryGrid');
-      
-      try {
-        // Try to load image list from a JSON file first
-        // If that doesn't exist, we'll need to manually list images
-        // For now, let's create a function that tries to load images
-        await loadImageList();
-        
-        if (imageFiles.length === 0) {
-          grid.innerHTML = '<div class="error">No images found in gallery folder. Please add images to assets/images/gallery/</div>';
-          return;
-        }
-
-        // Load and process images with EXIF data
-        await loadImagesWithExif();
-        
-        // Sort by EXIF DateTimeOriginal (newest first)
-        galleryImages.sort((a, b) => {
-          const dateA = a.exifDate ? parseExifDate(a.exifDate) : new Date(a.fileDate);
-          const dateB = b.exifDate ? parseExifDate(b.exifDate) : new Date(b.fileDate);
-          // Return negative if B is newer (larger), positive if A is newer
-          // This puts newest (larger dates) first
-          return dateB - dateA;
-        });
-
-        // Render gallery
-        renderGallery();
-        
-      } catch (error) {
-        console.error('Error loading gallery:', error);
-        grid.innerHTML = '<div class="error">Error loading gallery. Please check the console for details.</div>';
-      }
-    }
-
-    // Load image list - try to fetch from a JSON file or use manual list
-    async function loadImageList() {
-      try {
-        // Try to fetch a gallery.json file that lists all images
-        const response = await fetch('assets/images/gallery/gallery.json');
-        if (response.ok) {
-          const data = await response.json();
-          imageFiles = data.images || [];
-          return;
-        }
-      } catch (e) {
-        // JSON file doesn't exist, that's okay
-      }
-
-      // If no JSON file, you'll need to manually list images here
-      // Or we can try to auto-detect (requires server-side support)
-      // For now, we'll create an empty array that you can populate
-      imageFiles = [];
-      
-      // TODO: Add your image filenames here, or create a gallery.json file
-      // Example:
-      // imageFiles = ['pizza1.jpg', 'pizza2.jpg', 'pizza3.jpg'];
-    }
-
-    // Load image metadata without loading full image data
-    // This allows us to sort without loading all images at once
-    async function loadImagesWithExif() {
-      const promises = imageFiles.map(async (filename) => {
-        return new Promise((resolve) => {
-          // Create a minimal Image object just for EXIF extraction
-          // Use a smaller approach: fetch just headers or use XMLHttpRequest for metadata only
-          const img = new Image();
-          
-          // Set up EXIF extraction with minimal image load
-          img.onload = function() {
-            // Extract EXIF data
-            try {
-              EXIF.getData(img, function() {
-                const exifDate = EXIF.getTag(this, 'DateTimeOriginal');
-                // Fallback to file modification date or current time
-                const fileDate = this.lastModified || new Date().getTime();
-                
-                resolve({
-                  src: GALLERY_PATH + filename,
-                  filename: filename,
-                  exifDate: exifDate,
-                  fileDate: fileDate,
-                  loaded: false // Track if image is actually loaded for display
-                });
-              });
-            } catch (e) {
-              // If EXIF reading fails, use filename or current time
-              resolve({
-                src: GALLERY_PATH + filename,
-                filename: filename,
-                exifDate: null,
-                fileDate: new Date().getTime(),
-                loaded: false
-              });
-            }
-          };
-          
-          img.onerror = function() {
-            console.warn(`Failed to load image metadata: ${filename}`);
-            // Still resolve with basic data so image can be displayed
-            resolve({
-              src: GALLERY_PATH + filename,
-              filename: filename,
-              exifDate: null,
-              fileDate: new Date().getTime(),
-              loaded: false
-            });
-          };
-          
-          // Start loading (for EXIF) but this will be small compared to full render
-          img.src = GALLERY_PATH + filename;
-        });
-      });
-
-      const results = await Promise.all(promises);
-      galleryImages = results.filter(img => img !== null);
-    }
-
-    // Render gallery grid
-    function renderGallery() {
-      const grid = document.getElementById('galleryGrid');
-      grid.innerHTML = '';
-
-      galleryImages.forEach((image, index) => {
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.setAttribute('data-index', index);
-        
-        // Add loading placeholder
-        const placeholder = document.createElement('div');
-        placeholder.className = 'image-placeholder';
-        placeholder.innerHTML = '<div class="spinner"></div>';
-        item.appendChild(placeholder);
-        
-        const img = document.createElement('img');
-        img.src = image.src;
-        img.alt = `Gallery image ${index + 1}`;
-        img.setAttribute('loading', 'lazy'); // Use setAttribute for proper lazy loading
-        img.className = 'gallery-image';
-        
-        // Hide image until loaded
-        img.style.opacity = '0';
-        
-        // Show placeholder while loading
-        img.onloadstart = function() {
-          placeholder.style.display = 'flex';
-        };
-        
-        // Handle image load
-        img.onload = function() {
-          // Hide placeholder and show image
-          placeholder.style.display = 'none';
-          this.style.opacity = '1';
-          
-          // Special case: 20251018_200059.jpg should not be rotated
-          if (image.filename === '20251018_200059.jpg') {
-            // Skip all rotation for this image - display as-is
-            return;
-          }
-          
-          // Detect portrait orientation and rotate if needed
-          if (this.naturalHeight > this.naturalWidth) {
-            // Portrait image - rotate 90 degrees
-            this.classList.add('portrait-rotate');
-          }
-        };
-        
-        // Handle image load error
-        img.onerror = function() {
-          placeholder.innerHTML = '<span class="load-error">Failed to load</span>';
-          placeholder.style.display = 'flex';
-        };
-        
-        item.appendChild(img);
-        
-        grid.appendChild(item);
-      });
-    }
-
-    // Aggressive scroll reset - multiple events
-    function resetScroll() {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      if (window.pageYOffset !== 0) {
-        window.scrollTo(0, 0);
-      }
-    }
-
-    // Reset immediately
-    resetScroll();
-
-    // Reset on DOMContentLoaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', resetScroll);
-    } else {
-      resetScroll();
-    }
-
-    // Reset on window load
-    window.addEventListener('load', resetScroll);
-
-    // Reset after a brief delay to catch any late scrolling
-    setTimeout(resetScroll, 100);
-    setTimeout(resetScroll, 500);
-
-    // Initialize on page load
-    initGallery();
-  </script>
+  <script src="js/gallery.js"></script>
 </body>
 </html>

@@ -1,305 +1,109 @@
 /**
- * Instagram In-App Browser Detection Banner
- * Shows a minimal banner with action button to open in external browser
+ * Instagram / Facebook in-app browser escape (2026)
+ *
+ * Tapping our link inside Instagram opens a cramped built-in browser.
+ * 1. Once per visit we try to jump straight to the phone's real browser:
+ *      iPhone + Instagram: instagram://extbrowser/?url=...   (verified working Sep 2026;
+ *                          the older x-safari-https:// trick was blocked by Instagram)
+ *      Android:            intent://...;package=com.android.chrome  (hands off to Chrome)
+ * 2. If we're still here, a comic-style bar under the nav offers a one-tap
+ *    "Open in browser" button, plus the manual "••• → Open in external browser" tip.
  */
-
-(function() {
+(function () {
   'use strict';
 
-  // Detect Instagram's in-app browser
-  function isInstagramBrowser() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    return /Instagram|FBAN|FBAV/i.test(userAgent);
-  }
+  var ua = navigator.userAgent || '';
+  var isInstagram = /Instagram/i.test(ua);
+  var isFacebook = /FBAN|FBAV|FB_IAB/i.test(ua);
+  if (!isInstagram && !isFacebook) return;
 
-  // Detect iOS
-  function isIOS() {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  }
+  var isIOS = /iPad|iPhone|iPod/.test(ua);
+  var isAndroid = /Android/i.test(ua);
+  var here = location.href;
 
-  // Detect Android
-  function isAndroid() {
-    return /Android/.test(navigator.userAgent);
-  }
-
-  // Copy URL to clipboard (iOS)
-  function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(text).then(
-        () => true,
-        () => false
-      );
-    } else {
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      textArea.style.position = 'fixed';
-      textArea.style.opacity = '0';
-      textArea.style.left = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        return Promise.resolve(true);
-      } catch (err) {
-        document.body.removeChild(textArea);
-        return Promise.resolve(false);
-      }
+  function escapeUrl() {
+    if (isAndroid) {
+      return 'intent://' + here.replace(/^https?:\/\//, '') +
+        '#Intent;scheme=' + location.protocol.replace(':', '') +
+        ';package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(here) + ';end';
     }
+    if (isIOS && isInstagram) return 'instagram://extbrowser/?url=' + encodeURIComponent(here);
+    return null; // Facebook on iPhone: no reliable trick, show the manual tip
   }
 
-  // Attempt Android intent:// redirect
-  function attemptAndroidRedirect() {
-    const currentUrl = window.location.href;
-    const intentUrl = 'intent://' + currentUrl.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
-    
-    // Try to redirect
-    window.location.href = intentUrl;
-    
-    // If still here after a short delay, redirect failed
-    setTimeout(function() {
-      showTooltip('Failed - try manually');
-    }, 500);
+  function storageGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+  function storageSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
+
+  // ---- 1. automatic jump, once per visit ----
+  var target = escapeUrl();
+  if (target && !storageGet('dojo-escape-tried')) {
+    storageSet('dojo-escape-tried', '1');
+    var meta = document.createElement('meta');   // declarative redirect works best on page load
+    meta.httpEquiv = 'refresh';
+    meta.content = '0;url=' + target;
+    (document.head || document.documentElement).appendChild(meta);
   }
 
-  // Show tooltip message
-  function showTooltip(message) {
-    const tooltip = document.createElement('div');
-    tooltip.id = 'instagram-tooltip';
-    tooltip.textContent = message;
-    tooltip.style.cssText = `
-      position: fixed;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(212, 175, 55, 0.95);
-      color: #000;
-      padding: 0.8rem 1.5rem;
-      border-radius: 0.4rem;
-      font-family: 'Varela Round', sans-serif;
-      font-size: 0.9rem;
-      z-index: 10001;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      animation: slideDown 0.3s ease;
-    `;
-    
-    // Add animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateX(-50%) translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
-        }
-      }
-    `;
+  // ---- 2. the fallback bar ----
+  var css = '' +
+    '#dojo-escape{position:fixed;left:0;right:0;z-index:1001;display:flex;align-items:center;justify-content:center;gap:.6rem;' +
+    'padding:.45rem .7rem;background:#ffd54a radial-gradient(rgba(29,18,11,.16) 1.1px,transparent 1.5px) 0 0/7px 7px;' +
+    'border-bottom:3px solid #1d120b;box-shadow:0 3px 0 rgba(29,18,11,.5);font-family:Bangers,cursive;letter-spacing:.04em;color:#1d120b;}' +
+    '#dojo-escape p{margin:0;font-size:1rem;line-height:1.1;text-align:left}' +
+    '#dojo-escape small{display:block;font-family:"Varela Round",sans-serif;letter-spacing:0;font-size:.72rem;margin-top:2px}' +
+    '#dojo-escape .go{flex:none;font:inherit;font-size:1rem;color:#1d120b;background:#fffaf0;border:2.5px solid #1d120b;' +
+    'border-radius:9px;box-shadow:3px 3px 0 #1d120b;padding:.3rem .7rem .2rem;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
+    '#dojo-escape .go:active{transform:translate(3px,3px);box-shadow:0 0 0 #1d120b}' +
+    '#dojo-escape .x{flex:none;font:700 1.4rem/1 "Varela Round",sans-serif;background:none;border:0;color:#1d120b;padding:.1rem .3rem;cursor:pointer}';
+
+  function showBar() {
+    if (storageGet('dojo-escape-dismissed')) return;
+    var style = document.createElement('style');
+    style.textContent = css;
     document.head.appendChild(style);
-    
-    document.body.appendChild(tooltip);
-    
-    // Remove after 3 seconds
-    setTimeout(function() {
-      if (tooltip.parentNode) {
-        tooltip.style.animation = 'slideDown 0.3s ease reverse';
-        setTimeout(function() {
-          if (tooltip.parentNode) {
-            tooltip.parentNode.removeChild(tooltip);
-          }
-        }, 300);
-      }
-    }, 3000);
+
+    var nav = document.querySelector('.nav-menu');
+    var bar = document.createElement('div');
+    bar.id = 'dojo-escape';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', 'Open in your browser');
+    bar.innerHTML =
+      '<p>Get the full Dojo experience!' +
+      '<small>' + (target ? 'Opens in your phone\'s browser' : 'Tap ••• up top, then "Open in external browser"') + '</small></p>' +
+      (target ? '<button class="go" type="button">Open in browser</button>' : '') +
+      '<button class="x" type="button" aria-label="Close">&times;</button>';
+    document.body.appendChild(bar);
+
+    var isHome = document.body.classList.contains('home');
+    var basePad = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
+    function place() {
+      bar.style.top = (nav ? nav.getBoundingClientRect().bottom : 0) + 'px';
+      if (!isHome) document.body.style.paddingTop = (basePad + bar.offsetHeight) + 'px'; // push inner-page content below the bar
+      // let the home page keep its sign clear of nav + this bar
+      document.documentElement.style.setProperty('--escape-h', bar.offsetHeight + 'px');
+      window.dispatchEvent(new Event('dojo:chrome-resize'));
+    }
+    place();
+    window.addEventListener('resize', place);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+
+    var go = bar.querySelector('.go');
+    if (go) go.addEventListener('click', function () {
+      location.href = target; // must run right inside the tap
+      setTimeout(function () {
+        var s = bar.querySelector('small');
+        if (s && document.visibilityState === 'visible') s.textContent = 'Still here? Tap ••• up top, then "Open in external browser"';
+      }, 1500);
+    });
+    bar.querySelector('.x').addEventListener('click', function () {
+      storageSet('dojo-escape-dismissed', '1');
+      bar.remove();
+      document.body.style.paddingTop = '';
+      document.documentElement.style.removeProperty('--escape-h');
+      window.dispatchEvent(new Event('dojo:chrome-resize'));
+    });
   }
 
-  // Handle action button click
-  function handleActionClick() {
-    if (isIOS()) {
-      // iOS: Copy to clipboard
-      copyToClipboard(window.location.href).then(function(success) {
-        if (success) {
-          showTooltip('Copied! Paste in Safari');
-        } else {
-          showTooltip('Failed to copy');
-        }
-      });
-    } else if (isAndroid()) {
-      // Android: Attempt intent redirect
-      attemptAndroidRedirect();
-    }
-  }
-
-  // Create and show banner
-  function showBanner() {
-    // Check if already dismissed in this session
-    if (sessionStorage.getItem('instagram-banner-dismissed') === 'true') {
-      return;
-    }
-
-    // Dynamically calculate nav height
-    const navMenu = document.querySelector('.nav-menu');
-    const navHeight = navMenu ? navMenu.offsetHeight : 60;
-
-    // Create banner container
-    const banner = document.createElement('div');
-    banner.id = 'instagram-banner';
-    banner.style.cssText = `
-      position: fixed;
-      top: ${navHeight}px;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      border-bottom: 2px solid #d4af37;
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.8rem 1rem;
-      box-sizing: border-box;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    `;
-
-    // Create text container
-    const textContainer = document.createElement('div');
-    textContainer.style.cssText = `
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex: 1;
-      min-width: 0;
-    `;
-
-    // Create text
-    const text = document.createElement('span');
-    text.textContent = '';
-    text.style.cssText = `
-      font-family: 'Varela Round', sans-serif;
-      font-size: 0.95rem;
-      color: #f5e6d3;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    `;
-
-    // Create action button
-    const actionButton = document.createElement('button');
-    actionButton.textContent = 'Open in Browser';
-    actionButton.style.cssText = `
-      padding: 0.5rem 1rem;
-      font-family: 'Bangers', cursive;
-      font-size: 1rem;
-      color: #f5e6d3;
-      background: rgba(212, 175, 55, 0.3);
-      border: 1.5px solid #d4af37;
-      border-radius: 0.3rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      letter-spacing: 0.05em;
-      white-space: nowrap;
-      flex-shrink: 0;
-    `;
-    actionButton.onmouseover = function() {
-      this.style.background = '#d4af37';
-      this.style.color = '#000';
-    };
-    actionButton.onmouseout = function() {
-      this.style.background = 'rgba(212, 175, 55, 0.3)';
-      this.style.color = '#f5e6d3';
-    };
-    actionButton.onclick = handleActionClick;
-
-    // Create dismiss button (X)
-    const dismissButton = document.createElement('button');
-    dismissButton.innerHTML = '&times;';
-    dismissButton.style.cssText = `
-      padding: 0.3rem 0.6rem;
-      font-family: 'Varela Round', sans-serif;
-      font-size: 1.5rem;
-      color: #f5e6d3;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      line-height: 1;
-      flex-shrink: 0;
-      margin-left: 0.5rem;
-    `;
-    dismissButton.onmouseover = function() {
-      this.style.color = '#d4af37';
-      this.style.transform = 'scale(1.2)';
-    };
-    dismissButton.onmouseout = function() {
-      this.style.color = '#f5e6d3';
-      this.style.transform = 'scale(1)';
-    };
-    dismissButton.onclick = function() {
-      dismissBanner();
-    };
-
-    // Assemble banner
-    textContainer.appendChild(text);
-    textContainer.appendChild(actionButton);
-    banner.appendChild(textContainer);
-    banner.appendChild(dismissButton);
-
-    // Add to page
-    document.body.appendChild(banner);
-
-    // Adjust body padding to account for banner
-    const bannerHeight = banner.offsetHeight;
-    document.body.style.paddingTop = bannerHeight + 'px';
-
-    // Auto-dismiss after 10 seconds
-    setTimeout(function() {
-      if (banner.parentNode) {
-        dismissBanner();
-      }
-    }, 10000);
-
-    // Dismiss function
-    function dismissBanner() {
-      if (banner.parentNode) {
-        banner.style.animation = 'slideUp 0.3s ease';
-        setTimeout(function() {
-          if (banner.parentNode) {
-            banner.parentNode.removeChild(banner);
-            document.body.style.paddingTop = '';
-            sessionStorage.setItem('instagram-banner-dismissed', 'true');
-          }
-        }, 300);
-      }
-    }
-
-    // Add slide-up animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideUp {
-        from {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          transform: translateY(-100%);
-        }
-      }
-    `;
-    if (!document.getElementById('instagram-banner-styles')) {
-      style.id = 'instagram-banner-styles';
-      document.head.appendChild(style);
-    }
-  }
-
-  // Initialize
-  if (isInstagramBrowser()) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', showBanner);
-    } else {
-      showBanner();
-    }
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showBar);
+  else showBar();
 })();

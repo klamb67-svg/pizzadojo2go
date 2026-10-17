@@ -15,299 +15,17 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lora:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="layout.css">
-  
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="preload" as="image" href="assets/images/home/dojo-outside.webp">
+
   <!-- Instagram In-App Browser Banner -->
   <script src="js/instagram-banner.js"></script>
-
-  <style>
-    :root {
-      --overlay-top: 0.25;
-      --overlay-bot: 0.65;
-      --title-size: clamp(2.5rem, 8vw, 5rem);
-      --tagline-size: clamp(1.1rem, 3.2vw, 2rem);
-    }
-
-    html, body {
-      min-height: 100%;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      font-family: 'Bangers', cursive;
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-      overflow-y: auto;
-      background: #000;
-    }
-
-    /* Background image - homepage uses background.png */
-    body {
-      background-image: url('assets/images/background.png');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-    
-    /* Desktop: cover so no black bar below content */
-    @media (min-width: 769px) {
-      body {
-        background-size: cover;
-        background-position: center center;
-      }
-    }
-    
-    /* Mobile: background fills viewport, fixed height, no scroll */
-    @media (max-width: 768px) {
-      body {
-        background-image: url('assets/images/Mobilebackground.png');
-        background-size: cover;
-        background-position: center center;
-        background-attachment: scroll;
-        height: 100vh;
-      }
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,var(--overlay-top)),
-        rgba(0,0,0,var(--overlay-bot))
-      );
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Hide overlay on mobile to show bright background */
-    @media (max-width: 768px) {
-      .overlay {
-        display: none;
-      }
-    }
-
-    .container {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 15rem;
-      padding: 3vh 5vw;
-      z-index: 2;
-    }
-
-    header {
-      margin-top: -8rem;
-    }
-
-    .site-title {
-      margin: 0;
-      font-size: var(--title-size);
-      font-weight: 400;
-      font-family: 'Bangers', cursive;
-      text-shadow: 0 3px 20px rgba(0,0,0,.8);
-      letter-spacing: 0.05em;
-      color: var(--dojo-cream);
-    }
-
-    .bottom-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      margin-top: 4rem;
-    }
-
-    .headline {
-      font-size: var(--tagline-size);
-      font-weight: 400;
-      font-family: 'Bangers', cursive;
-      letter-spacing: 0.02em;
-      text-shadow: 0 2px 14px rgba(0,0,0,.6);
-      color: var(--dojo-cream);
-    }
-
-    .actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 2px solid var(--dojo-gold);
-      padding: .7rem 1.6rem;
-      text-decoration: none;
-      color: var(--dojo-cream);
-      font-size: 1.1rem;
-      font-weight: 400;
-      font-family: 'Bangers', cursive;
-      letter-spacing: 0.05em;
-      transition: all .25s ease;
-      border-radius: .4rem;
-      background: rgba(93, 64, 55, 0.4);
-      backdrop-filter: blur(2px);
-    }
-
-    .btn:hover {
-      background: var(--dojo-gold);
-      color: var(--dojo-wood);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
-    }
-
-    /* Mobile: no scrolling, fixed layout */
-    @media (max-width: 768px) {
-      html, body {
-        overflow-y: hidden;
-        height: 100vh;
-      }
-
-      .container {
-        height: 100vh;
-        gap: 2rem;
-      }
-
-      header {
-        margin-top: -10rem;
-      }
-
-      .site-title {
-        font-size: clamp(2.8rem, 10vw, 4rem);
-      }
-      
-      .headline {
-        font-size: clamp(1.2rem, 5vw, 1.8rem);
-      }
-      
-      .btn {
-        font-size: 1.3rem;
-        padding: 0.9rem 2rem;
-      }
-
-      .bottom-section {
-        margin-top: 6rem;
-      }
-    }
-
-    /* Top announcement - first line moved here */
-    .top-announcement {
-      position: fixed;
-      top: 200px;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      text-align: center;
-      font-family: 'Bangers', cursive;
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 3px 20px rgba(0,0,0,0.8);
-      padding: 10px 20px;
-    }
-
-    @media (max-width: 768px) {
-      .top-announcement {
-        font-size: 1.6rem;
-        top: 90px;
-      }
-    }
-
-    /* Homepage Footer */
-    .home-footer {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 20px;
-      max-width: 1200px;
-      margin: -300px auto 0;
-    }
-
-    .footer-text {
-      color: #f4e4c1;
-      font-family: 'Varela Round', sans-serif;
-      font-size: 1.2rem;
-      font-weight: normal;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .footer-headline {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .social-icon {
-      width: 48px;
-      height: 48px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      display: block;
-    }
-
-    .social-icon path {
-      transition: fill 0.3s ease;
-    }
-
-    .social-links a:hover .social-icon {
-      transform: scale(1.1);
-    }
-
-    .social-links a:hover .social-icon path {
-      fill: #d4a574;
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .social-icon {
-        width: 28px;
-        height: 28px;
-      }
-    }
-
-    /* Mobile Footer - fixed at bottom, no scroll */
-    @media (max-width: 768px) {
-      .home-footer {
-        position: fixed;
-        bottom: 5px;
-        left: 0;
-        right: 0;
-        padding: 8px 12px;
-        margin: 0;
-      }
-
-      .footer-text {
-        font-size: 0.85rem;
-        font-weight: 700;
-        line-height: 1.1;
-        margin-bottom: 8px;
-      }
-
-      .footer-headline {
-        font-size: 0.8rem;
-        margin-bottom: 2px;
-        display: block;
-      }
-    }
-  </style>
 </head>
 
-<body>
-  <!-- Navigation Menu -->
+<body class="home">
+  <!-- Navigation Menu (stays put while the doors open) -->
   <nav class="nav-menu" aria-label="Main navigation">
     <ul>
       <li><a href="index.html" class="active">Home</a></li>
@@ -320,28 +38,61 @@
     </ul>
   </nav>
 
-  <div class="top-announcement">
-    Coming to Central Wisconsin Spring of 2027
-  </div>
+  <!-- What's behind the doors: the interior background every inner page uses -->
+  <div class="reveal" aria-hidden="true"></div>
 
-  <div class="overlay" aria-hidden="true"></div>
-
-  <div class="container">
-  </div>
-
-  <footer class="home-footer">
-    <p class="footer-text">
-      Pizza Dojo is an artisan flamed baked pizza trailer.<br>
-      Follow Us for more information
-    </p>
-    <div class="social-links">
-      <a href="https://www.instagram.com/pizzadojo2go/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="#f4e4c1"/>
-        </svg>
-      </a>
+  <!-- The home page IS the door. It gets cloned and split when a link is tapped. -->
+  <main class="door-scene" id="door-scene">
+    <div class="stage">
+      <img class="stage-bg" src="assets/images/home/dojo-outside.webp" alt="" width="1872" height="1056">
+      <!-- Neon sign: the painted letters light up like neon tubes -->
+      <div class="neon-sign" aria-hidden="true">
+        <img class="neon-shadow" src="assets/images/home/neon-letters.webp" alt="">
+        <img class="neon-shadow" src="assets/images/home/neon-i.webp" alt="">
+        <img class="neon-shadow" src="assets/images/home/neon-j.webp" alt="">
+        <img class="neon-tube" src="assets/images/home/neon-letters.webp" alt="">
+        <img class="neon-tube neon-loose" src="assets/images/home/neon-i.webp" alt="">
+        <img class="neon-tube neon-loose" src="assets/images/home/neon-j.webp" alt="">
+      </div>
+      <!-- Living scene: lantern glow + fireflies (fireflies added by JS) -->
+      <div class="lanterns" aria-hidden="true">
+        <span style="--x:23.08%;--y:38.54%;--d:0s"></span>
+        <span style="--x:28.74%;--y:37.88%;--d:-1.3s"></span>
+        <span style="--x:36.97%;--y:38.83%;--d:-2.1s"></span>
+        <span style="--x:64.21%;--y:38.83%;--d:-0.7s"></span>
+        <span style="--x:72.22%;--y:37.12%;--d:-2.6s"></span>
+        <span style="--x:77.30%;--y:39.02%;--d:-1.8s"></span>
+      </div>
+      <div class="fireflies" aria-hidden="true"></div>
+      <div class="meatball-man">
+        <img class="mm-rest" src="assets/images/home/mm-rest.webp" alt="">
+        <img class="mm-peel" src="assets/images/home/mm-peel.webp" alt="">
+        <img class="mm-body" src="assets/images/home/mm-body.webp" alt="">
+        <h1 class="speech-bubble">Coming to Central Wisconsin <span>Spring&nbsp;2027!</span></h1>
+      </div>
     </div>
-  </footer>
+    <div class="overlay" aria-hidden="true"></div>
 
+    <footer class="home-footer">
+      <div class="caption-box">
+        <p class="footer-text">
+          Pizza Dojo is an artisan flame baked pizza trailer.<br>
+          Follow us for more information!
+        </p>
+        <a class="comic-btn ig-btn" href="https://www.instagram.com/pizzadojo2go/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="#f4e4c1"/>
+          </svg>
+          <span>Instagram</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Split halves + crack get built here at tap time -->
+  <div class="doors" id="doors" aria-hidden="true"></div>
+
+  <script src="js/home-life.js"></script>
+  <script src="js/door-split.js"></script>
 </body>
 </html>
